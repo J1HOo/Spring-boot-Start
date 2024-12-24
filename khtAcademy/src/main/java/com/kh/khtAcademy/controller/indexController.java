@@ -12,8 +12,8 @@ import java.util.Map;
 @Controller // java에서 service와 html에 변수명을 주고 받는 공간
 public class indexController {
 
-@Autowired
-private UserProfileService userProfileService;
+    @Autowired
+    private UserProfileService userProfileService;
 
 
     @GetMapping("/") // 엔드포인트 html 파일에 작성한 화면을 보여줄 주소
@@ -22,5 +22,14 @@ private UserProfileService userProfileService;
         model.addAttribute("users 목록 확인 : ", users);
         // model.addAttribute("message", "Hello World");
         return "index";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        // 회원가입을 진행할 때는 DB에서 가져올게 없기 때문에
+        // Model model을 사용하지 않고
+        // http://localhost:8080/register 로 이동했을 때
+        // register.html 에 작성한 화면이 보일 수 있도록 설정
+        return "register";
     }
 }
