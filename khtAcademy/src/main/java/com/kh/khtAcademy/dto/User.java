@@ -16,8 +16,8 @@ public class User {
     private int userId;
     private String username;
     private String email;
-    private String birthday;
-    private String accountbalance;
+    private String birthdate;
+    private String accountBalance;
     private String gender;
     private String hobbies;
 
