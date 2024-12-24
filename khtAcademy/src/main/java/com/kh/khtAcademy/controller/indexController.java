@@ -1,10 +1,13 @@
 package com.kh.khtAcademy.controller;
 
+import com.kh.khtAcademy.dto.User;
 import com.kh.khtAcademy.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -31,5 +34,14 @@ public class indexController {
         // http://localhost:8080/register 로 이동했을 때
         // register.html 에 작성한 화면이 보일 수 있도록 설정
         return "register";
+    }
+
+    // DB에 값을 집어넣을 때는 PostMapping 사용하고 엔드포인트 form action에서 작성한
+    // 주소를 엔드포인트로 지정
+    @PostMapping("/register-success")
+    public String registerSuccess(@ModelAttribute("user") User user, Model model) {
+        userProfileService.insertUser(user);
+        model.addAttribute("msg", "회원가입이 성공적으로 완료되었습니다.");
+        return "success"; //회원가입이 무사히 완료될 경우 success 페이지로 이동
     }
 }
