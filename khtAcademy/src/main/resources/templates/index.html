@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MDCOMPANY = MAIN</title>
-    <link href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <th:block th:replace="layout/header :: header"></th:block>
@@ -18,6 +18,9 @@
                     <td th:text="${u.username}"></td>
                     <td th:text="${u.email}"></td>
                     <td th:text="${u.birthdate}"></td>
+                    <td th:text="${u.accountBalance}"></td>
+                    <td th:text="${u.gender}"></td>
+                    <td th:text="${u.hobbies}"></td>
             </tr>
         </table>
     </div>
