@@ -16,4 +16,8 @@ public interface UserProfileService {
 
     // 유저 저장하기 기능
     void insertUser(User user);
+
+    String findByUsername(String email);
+
+
 }
