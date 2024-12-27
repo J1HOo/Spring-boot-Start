@@ -9,7 +9,10 @@
 <th:block th:replace="~{layout/header :: header}"></th:block>
 <div class="find-container">
     <h1>유저 이름 결과</h1>
-    <p>입력한 이메일로 찾은 이름 : <span th:text="${username}"></span></p>
+    <p th:text="${username != null and !username.isEmpty()
+                ? '입력한 이메일로 찾은 이름 : ' + username
+                :'조회된 회원이 없습니다.' }">
+    </p>
     <a href="/">메인으로 돌아가기</a>
 </div>
 <th:block th:replace="~{layout/footer :: footer}"></th:block>
