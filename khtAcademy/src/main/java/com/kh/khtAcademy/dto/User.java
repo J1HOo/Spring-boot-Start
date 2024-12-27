@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
+
 @AllArgsConstructor // 필수 생성자
 @NoArgsConstructor // 기본 생성자
 @Setter // setter
@@ -17,6 +19,7 @@ public class User {
     private int userId;
     private String username;
     private String email;
+    private String profileImagePath;
     /*
 private String birthdate;
 birthdate SQL 에서는 DATE 타입
@@ -30,7 +33,7 @@ private Date birthdate;
              import java.util.Date를 가져와서 사용할 것!
  */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String birthdate;
+    private Date birthdate;
     private String accountBalance;
     private String gender;
     private String hobbies;
