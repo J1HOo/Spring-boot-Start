@@ -19,5 +19,10 @@ public interface UserProfileService {
 
     String findByUsername(String email);
 
+    // 유저이름, 성별로 이메일  찾기 기능
+    String findByEmail(String username, String gender);
+    // 유저 상세보기
+    User getUser(int userId);
+
 
 }
