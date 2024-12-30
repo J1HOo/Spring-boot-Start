@@ -143,12 +143,16 @@ public class IndexController {
 
       * @param username = login.html에서 name=username 으로 작성되어있는 name 명칭
      * @param email    = login.html에서 name=email      로 작성되어있는 name 명칭
-     * @param model    = login.html에서 요청한 회원 정보를 로그인을 완료한 후 메인페이지에서 회원 정보를 사용할 수 있도록 전달
+     * @param model    = login.html에서 요청한 회원 정보가 없을 때, 일치하는 회원이 없어 로그인을 할 수 없다는 메세지 전달
+     *
      * @param session  = 사용자의 정보를 관리하기 위한 객체 사용자의 세션에 데이터를 저장하거나 기존 데이터를 불러오는데 활용
      *                   └─── 세션을 이용해서 로그인을 완성한 후 30분 뒤 자동 로그아웃이나 로그아웃 설정 가능
+     *
      * @return         = 로그인 완료 여부에 따라 보여줄 html 작성
      *                   └─── 로그인 완료시 메인 페이지로 전송
      *                   └─── 로그인 실패시 로그인 페이지에 머무르기 + 로그인 실패 메세지 전송
+     * Model model          = @PostMapping 에서는 로그인 실패했을 경우 실패 메세지만 전달
+     * HttpSession session  = @PostMapping 에서는 로그인 성공했을 경우 로그인한 유저 정보 전달
      */
     @PostMapping("/login")
     public String login(@RequestParam String username,
@@ -158,26 +162,67 @@ public class IndexController {
         User user = userProfileService.login(username, email);
         // 1. 로그인에 성공했을 경우 회원정보가 존재할 것
         if(user != null){
-            session.setAttribute("user", user);
-            return "redirect:/";
+            session.setAttribute("loggedInUser", user);
+            return "redirect:/"; // 로그인 성공한 정보를 가지고 메인페이지로 전달하면서 돌아가기
+            /*
+             * redirect = api / endpoint / url 과 같은 주소 명칭 주로 작성
+             * */
         }
         // 2. 로그인에 실패했을 경우 회원정보가 null 값일 것 (왜냐하면 정보가 없기 때문)
+        else {
+            model.addAttribute("fail", "유효하지 않은 유저이름 또는 이메일입니다.");
+            return "login"; //login.html로 전달
+        }
 
+    }
 
-        return "login";
+    // 로그인한 정보를 index.html 이외 로그인한 회원에 정보가 필요한 모든 곳에서 사용할 수 있도록 설정하는
+    // 로그인 정보 탐지 모델
+    @ModelAttribute("loggedInUser")
+    public Object addLoggedInUser(HttpSession session){
+        return  session.getAttribute("loggedInUser");
     }
 
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate(); // invalidate 로그인된 정보를 초기화하면서 없애기
+        return "redirect:/";    // 로그아웃 된 정보를 재설정하면서 index.html 돌아가기
+    }
+
+    // mypage.html로 접속할 수 있는 api = /mypage 만들기
+    @GetMapping("/mypage")
+    public String myPage(Model model, HttpSession session){
+        Object loggedInUser = session.getAttribute("loggedInUser");
+        if(loggedInUser != null){
+            model.addAttribute("user", loggedInUser);
+        }
+        return "mypage";
+    }
 
 
-
-
-
-
+    /*
+     * @GetMapping("/error")
+     * public String getError(){
+     *   return "error"; // .html 기본적으로 작성되어 있기 때문에 error.html로 이동하는 것
+     *                   // "" 파일명 뒤에는 .html 숨겨져 있음
+     * }
+     *
+     * api = url = endpoint 로
+     * /error 를 작성하지 않아도 error.html로 이동하는 이유는
+     * 스프링부트 자체에 기본적으로 /error 주소를 사용해서 WhiteLabel이 작성된
+     * 스프링부트 error.html로 이동하고 있기 때문
+     *
+     * 개발자가 error.html을 만들었기 때문에 스프링부트에서 기본으로 제공하는
+     * error.html로 이동하는 것이 아니라 개발자가 만든 error.html 이동
+     *
+     * */
 
 
 
     /*
      * controller - Get - Post - RequestParam
      * */
+
+    // 검색 새로고침 로그인 유지 -> 쿠키  추후 검증을 통해 로그인 유지할 수 있도록 설정
 }
