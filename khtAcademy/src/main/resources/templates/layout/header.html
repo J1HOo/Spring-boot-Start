@@ -9,7 +9,10 @@
     </nav>
 
     <div class="sign-in">
-        <a href="/login">로그인</a>
+        <a th:if=" ${ loggedInUser  == null } " href="/register">회원가입</a>
+        <a th:if=" ${ loggedInUser  == null } " href="/login">로그인</a>
+        <a th:if=" ${ loggedInUser  != null } " href="/mypage">마이페이지</a>
+        <a th:if=" ${ loggedInUser  != null } " href="/logout">로그아웃</a>
 
     </div>
 </header>

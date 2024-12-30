@@ -95,6 +95,14 @@
         WHERE USER_ID = #{userId}
     </select>
 
+
+    <select id="login">
+        SELECT *
+        FROM USERPROFILE
+        WHERE USERNAME = #{username}
+          AND   EMAIL = #{email}
+    </select>
+
     <!--
      Error  Whitelabel Error Page 에서
     SQL 글자가 보이면 무조건 xml 파일 내 sql 구문 작성이 잘못된 것

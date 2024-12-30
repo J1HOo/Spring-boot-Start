@@ -30,4 +30,7 @@ public interface UserProfileMapper {
 
    // 유저 아이디 번호 통해서 유저에 대한 정보 가져오기
    User getUser(int userId);
+
+   // mapper.xml 에 작성한 SQL문 연결하는 메서드명칭 작성
+   User login(String username,  String email);
 }
