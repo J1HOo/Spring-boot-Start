@@ -57,4 +57,7 @@ public interface UserProfileService {
     // 유저가 email
     User login(String username,  String email);
 
+    // 취미가 동일한 유저 검색
+    List<User> searchHobby(String hobbies);
+
 }
