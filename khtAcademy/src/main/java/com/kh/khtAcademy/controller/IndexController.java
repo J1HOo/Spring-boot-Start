@@ -2,6 +2,8 @@ package com.kh.khtAcademy.controller;
 
 import com.kh.khtAcademy.dto.User;
 import com.kh.khtAcademy.service.UserProfileService;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -209,6 +212,22 @@ public class IndexController {
         model.addAttribute("hobbies", searchUser);
         return "hobby"; //.html
     }
+
+    @PostMapping("/check-username")
+    public void checkUsername(@RequestParam("username") String username,
+                              HttpServletResponse response
+                              ) throws IOException {
+        boolean isDuplicate = userProfileService.checkDuplicatedUsername(username);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"isDuplicate\" : " + isDuplicate + "}");
+    }
+
+
+
+
+
+    
+
 
 
     /*

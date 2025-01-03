@@ -110,6 +110,22 @@
         WHERE HOBBIES LIKE CONCAT('%', #{hobbies}, '%')
     </select>
 
+    <!-- 아이디 중복 확인 SQL : username이 일치하는 회원이 조회 되는 경우 -->
+    <select id="checkDuplicatedUsername">
+        SELECT COUNT(*)
+        FROM USERPROFILE
+        WHERE USERNAME = #{username}
+    </select>
+
+
+
+
+
+
+
+
+
+
     <!--
      Error  Whitelabel Error Page 에서
     SQL 글자가 보이면 무조건 xml 파일 내 sql 구문 작성이 잘못된 것

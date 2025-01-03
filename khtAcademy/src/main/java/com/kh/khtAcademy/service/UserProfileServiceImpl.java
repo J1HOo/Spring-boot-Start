@@ -140,4 +140,17 @@ public class UserProfileServiceImpl implements UserProfileService {
         return userProfileMapper.searchHobby(hobbies);
     }
 
+    /*
+    @param username : 회원가입할 때 일치하는 username이 있는지 확인
+        userProfileMapper.checkDuplicatedUsername(username) > 0
+            checkDuplicatedUsername에서 넘어온 숫자가 1 이상 이면
+            DB에 1명 이상 중복이므로 false 반환
+     */
+    @Override
+    public boolean checkDuplicatedUsername(String username) {
+        boolean duplicated = userProfileMapper.checkDuplicatedUsername(username) > 0;
+        System.out.println("중복 확인 : " + duplicated);
+        return duplicated;
+    }
+
 }

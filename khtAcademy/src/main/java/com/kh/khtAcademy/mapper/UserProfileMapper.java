@@ -37,4 +37,8 @@ public interface UserProfileMapper {
    // 정보 하나를 가져올 때는         자료형에 String, int, DTO  파일 명칭을 작성
    // 정보를 두 가지 이상 가져올 때는 자료형에 List 사용해서 가져옴
    List<User> searchHobby(String hobbies);
+
+   // 유저 네임이 중복인지 확인 = String username이 존재하면
+   // 카운트 되어 0, 1, 2와 같은 숫자값이 넘어올 것이기 때문에 int 사용
+   int checkDuplicatedUsername(String username);
 }

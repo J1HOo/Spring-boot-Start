@@ -60,4 +60,9 @@ public interface UserProfileService {
     // 취미가 동일한 유저 검색
     List<User> searchHobby(String hobbies);
 
+    // 일치하는 회원 조회
+    // 1 이상이 나오면 true, false
+    // 0일 경우에만 회원가입이 가능하도록 설정
+    boolean checkDuplicatedUsername(String username);
+
 }
