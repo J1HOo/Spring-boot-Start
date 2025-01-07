@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -157,27 +158,44 @@ public class IndexController {
      * Model model          = @PostMapping 에서는 로그인 실패했을 경우 실패 메세지만 전달
      * HttpSession session  = @PostMapping 에서는 로그인 성공했을 경우 로그인한 유저 정보 전달
      */
-    @PostMapping("/login")
-    public String login(@RequestParam String username,
-                        @RequestParam String email,
-                        Model model, HttpSession session ){
-        // 유저프로필 서비스 로그인을 진행했을 때에 대한 결과를 가져옴
-        User user = userProfileService.login(username, email);
-        // 1. 로그인에 성공했을 경우 회원정보가 존재할 것
-        if(user != null){
-            session.setAttribute("loggedInUser", user);
-            return "redirect:/"; // 로그인 성공한 정보를 가지고 메인페이지로 전달하면서 돌아가기
-            /*
-             * redirect = api / endpoint / url 과 같은 주소 명칭 주로 작성
-             * */
-        }
-        // 2. 로그인에 실패했을 경우 회원정보가 null 값일 것 (왜냐하면 정보가 없기 때문)
-        else {
-            model.addAttribute("fail", "유효하지 않은 유저이름 또는 이메일입니다.");
-            return "login"; //login.html로 전달
-        }
 
+    @ResponseBody //JSON 형식으로 로그인에 대한 정보 받기
+    public Map<String, Object> login(@RequestParam String username,
+                                     @RequestParam String email,
+                                     HttpSession session){
+        Map<String, Object> response = new HashMap<String, Object>();
+        User user = userProfileService.login(username, email);
+        if(user != null){
+            session.setAttribute("loggedInUser", user); //로그인 성공했을 경우 session에서 loggedInUser 라는 이름으로 로그인한 유저 정보 저장
+            response.put("loggedIn", true);
+            response.put("message", "로그인 성공했습니다.");
+        } else {
+            response.put("loggedIn", false);
+            response.put("message", "로그인에 실패했습니다.");
+        }
+        return response;
     }
+//    @PostMapping("/login")
+//    public String login(@RequestParam String username,
+//                        @RequestParam String email,
+//                        Model model, HttpSession session ){
+//        // 유저프로필 서비스 로그인을 진행했을 때에 대한 결과를 가져옴
+//        User user = userProfileService.login(username, email);
+//        // 1. 로그인에 성공했을 경우 회원정보가 존재할 것
+//        if(user != null){
+//            session.setAttribute("loggedInUser", user);
+//            return "redirect:/"; // 로그인 성공한 정보를 가지고 메인페이지로 전달하면서 돌아가기
+//            /*
+//             * redirect = api / endpoint / url 과 같은 주소 명칭 주로 작성
+//             * */
+//        }
+//        // 2. 로그인에 실패했을 경우 회원정보가 null 값일 것 (왜냐하면 정보가 없기 때문)
+//        else {
+//            model.addAttribute("fail", "유효하지 않은 유저이름 또는 이메일입니다.");
+//            return "login"; //login.html로 전달
+//        }
+//
+//    }
 
     // 로그인한 정보를 index.html 이외 로그인한 회원에 정보가 필요한 모든 곳에서 사용할 수 있도록 설정하는
     // 로그인 정보 탐지 모델
