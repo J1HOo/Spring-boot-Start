@@ -40,7 +40,7 @@
             $.ajax({
                 url: '/login',
                 type:'POST',
-                contentType: 'application/x-www-from-urlencoded; charset=UTF-8', // www web사이트에서 글자값만 전송, 한글도 작성할 수 있도록 설정
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // www web사이트에서 글자값만 전송, 한글도 작성할 수 있도록 설정
                 data: {
                     /* controller에 넘겨줄 키 명칭 : 위에서 작성한 변수명으로 controller에 사용자가 작성한 데이터를 넘겨줌*/
                     username: username, //@RequestParam String username : $('#username').val(),
